@@ -2,7 +2,7 @@ FROM python:3.10-slim-bookworm
 
 WORKDIR /usr/src/app
 
-# Install system dependencies
+# Install system dependencies + C compilers
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \

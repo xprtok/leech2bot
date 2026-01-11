@@ -1,6 +1,6 @@
 import os
 import asyncio
-from pycryptodome import Client, filters
+from pyrogram import Client, filters
 from mega import Mega  # For Mega links
 
  from Crypto.Cipher import AES  #old pycrypto

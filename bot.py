@@ -1,12 +1,12 @@
 import os
 import sys
-from Crypto.Cipher import AES  # Remove the spaces before 'from'
+from Crypto.Cipher import AES # Remove the spaces before 'from'
 from mega import Mega # For Mega links
 
 # --- CONFIGURATION ---
-API_ID = 36982189          # Get from my.telegram.org
-API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7"    # Get from my.telegram.org
-BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E"  # Get from @BotFather
+API_ID = 36982189 # Get from my.telegram.org
+API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7" # Get from my.telegram.org
+BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E" # Get from @BotFather
 
 app = Client("leech_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 

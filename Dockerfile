@@ -1,6 +1,9 @@
 # Use a slim python image
 FROM python:3.10-slim-buster
 
+RUN apt-get update && apt-get install -y aria2 tor curl
+# ... the rest of your instructions
+
 # Install system dependencies (Aria2, Tor, etc.)
 RUN apt-get update && apt-get install -y \
     aria2 \

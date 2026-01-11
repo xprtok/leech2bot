@@ -1,8 +1,17 @@
+# Core Telegram bot framework
 pyrogram
-pycryptodomex
 tgcrypto
+
+# Modern cryptography library (replacement for PyCrypto)
+pycryptodomex
+
+# Mega.nz support
 mega.py
+
+# Retry logic
 tenacity==8.2.3
+
+# Networking libraries
 requests[socks]
 aiohttp
 aiofiles

@@ -3,12 +3,6 @@ import asyncio
 from pyrogram import Client, filters
 from mega import Mega  # For Mega links
 
-/my-leech-bot
-├── bot.py
-├── Dockerfile          <-- Docker starts here
-├── docker-compose.yml
-└── requirements.txt    <-- Must be in the same folder as Dockerfile
-
 # --- CONFIGURATION ---
 API_ID = 36982189          # Get from my.telegram.org
 API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7"    # Get from my.telegram.org

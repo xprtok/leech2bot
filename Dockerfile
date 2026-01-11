@@ -1,7 +1,7 @@
-# Use 3.10 to fix the asyncio.coroutine error
+# Force Python 3.10 to fix the 'asyncio.coroutine' error seen in your logs
 FROM python:3.10-slim-buster
 
-# Install Tor and Aria2
+# Install Tor and Aria2 binaries (This fixes your '/bin/sh: 1: tor: not found' error)
 RUN apt-get update && apt-get install -y \
     tor \
     aria2 \
@@ -14,12 +14,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your code
+# Copy the rest of your project files
 COPY . .
 
-# Create a script to start both Tor and the Bot
-RUN echo "tor & python3 bot.py" > start.sh && chmod +x start.sh
+# Create a small script to run Tor in the background and then start the bot
+RUN echo "#!/bin/sh\ntor &\npython3 bot.py" > start.sh && chmod +x start.sh
 
+# Use the script to start the container
 CMD ["./start.sh"]
 
 

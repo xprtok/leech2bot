@@ -1,5 +1,10 @@
 # Use an official lightweight Python image
 FROM python:3.10-slim-buster
+/my-leech-bot
+├── bot.py
+├── Dockerfile          <-- Docker starts here
+├── docker-compose.yml
+└── requirements.txt    <-- Must be in the same folder as Dockerfile
 
 # Install system dependencies
 # aria2: for torrents and direct links

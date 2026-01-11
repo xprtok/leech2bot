@@ -1,6 +1,6 @@
 pyrogram
-tgcrypto
 pycryptodomex
+tgcrypto
 mega.py
 tenacity==8.2.3
 requests[socks]

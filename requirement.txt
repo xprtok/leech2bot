@@ -1,4 +1,8 @@
-
+/my-leech-bot
+├── bot.py
+├── Dockerfile          <-- Docker starts here
+├── docker-compose.yml
+└── requirements.txt    <-- Must be in the same folder as Dockerfile
 # Telegram API Framework
 pyrogram
 tgcrypto

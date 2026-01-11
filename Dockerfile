@@ -1,8 +1,22 @@
 # Force Python 3.10 to fix the 'asyncio.coroutine' error seen in your logs
 FROM python:3.10-slim-buster
 
-# Install Tor and Aria2 binaries (This fixes your '/bin/sh: 1: tor: not found' error)
+# Install necessary system binaries for Tor and Aria2
+RUN apt-get update && apt-get install -y \
+    tor \
+    aria2 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+    # Install Tor and Aria2 binaries
 RUN apt-get update && apt-get install -y tor aria2 curl && rm -rf /var/lib/apt/lists/*
+
+# Install Tor and Aria2 binaries
+RUN apt-get update && apt-get install -y \
+    tor \
+    aria2 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

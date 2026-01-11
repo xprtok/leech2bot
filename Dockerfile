@@ -1,5 +1,5 @@
-# Downgrade to 3.10 to fix the asyncio.coroutine AttributeError
-FROM python:3.10-slim-bookworm
+# upgrade to 3.11 to fix the asyncio.coroutine AttributeError
+FROM python:3.11-slim-bookworm
 
 WORKDIR /usr/src/app
 

@@ -1,5 +1,6 @@
 pip install pyrogram tgcrypto mega.py
 pip install -r requirements.txt
+docker builder prune -a
 
 cat <<EOF > requirements.txt
 pyrogram

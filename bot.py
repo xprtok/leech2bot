@@ -2,6 +2,7 @@ import os
 import sys
 import asyncio
 from pyrogram import Client, filters
+from Crypto.Cipher import AES
 from mega import Mega 
 
 # Configuration

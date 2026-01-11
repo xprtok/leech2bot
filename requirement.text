@@ -1,0 +1,17 @@
+# Telegram API Framework
+pyrogram
+tgcrypto
+
+# Cloud Storage SDKs
+mega.py
+google-api-python-client
+google-auth-oauthlib
+
+# Network & Download Utilities
+aiohttp
+aiofiles
+requests[socks]
+python-magic
+
+# Progress Bar & Terminal Formatting
+tqdm

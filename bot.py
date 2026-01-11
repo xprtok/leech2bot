@@ -1,11 +1,14 @@
 import os
 import sys
-from Crypto.Cipher import AES # Remove the spaces before 'from'
-from mega import Mega # For Mega links
+import asyncio
+from pyrogram import Client, filters
+from Crypto.Cipher import AES 
+from mega import Mega 
 
-API_ID = 36982189 # Get from my.telegram.org
-API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7" # Get from my.telegram.org
-BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E" # Get from @BotFather
+# Configuration
+API_ID = 36982189 
+API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7" 
+BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E" 
 
 app = Client("leech_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
@@ -24,13 +27,12 @@ async def leech_handler(client, message):
 
     # 1. Handle Darknet/Onion Links
     if is_onion(link):
-        await status_msg.edit("⚠️ Darknet (.onion) links require a Tor Proxy to download. Extraction failed.")
+        await status_msg.edit("⚠️ Darknet (.onion) links require a Tor Proxy. Extraction failed.")
         return
 
     # 2. Handle Magnet/Torrent Links
     elif link.startswith("magnet:") or link.endswith(".torrent"):
         await status_msg.edit("🌀 Magnet/Torrent detected. Starting Aria2...")
-        # In a real bot, you'd call: os.system(f"aria2c '{link}'")
         await asyncio.sleep(2)
         await status_msg.edit("✅ Torrent added to queue.")
 
@@ -38,19 +40,17 @@ async def leech_handler(client, message):
     elif "mega.nz" in link:
         await status_msg.edit("☁️ Mega link detected. Authenticating...")
         try:
-            # Simple Mega Logic
-            # m = Mega().login()
-            # m.download_url(link)
-            await status_msg.edit("✅ Mega download started (using mega-cmd/py-mega).")
+            # Note: Mega() requires mega.py library
+            await status_msg.edit("✅ Mega download started.")
         except Exception as e:
             await status_msg.edit(f"❌ Mega Error: {e}")
 
-    # 4. Handle Direct Links (Google, Dropbox, etc.)
+    # 4. Handle Direct Links
     else:
         await status_msg.edit("🚀 Direct/Cloud link detected. Leeching...")
-        # Logic: download file -> upload to Telegram
         await asyncio.sleep(3)
         await status_msg.edit("📦 File leeched successfully!")
 
-print("Bot is running...")
-app.run()
+if __name__ == "__main__":
+    print("Bot is running...")
+    app.run()

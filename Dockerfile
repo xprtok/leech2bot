@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     aria2 \
     curl \
     && rm -rf /var/lib/apt/lists/*
+    
+    # Create the downloads directory and give it permissions
+RUN mkdir -p /usr/src/app/downloads && chmod 777 /usr/src/app/downloads
 
 # Install Python dependencies
 COPY requirements.txt .

@@ -1,36 +1,25 @@
-# Use a slim python image
+# Use 3.10 to fix the asyncio.coroutine error
 FROM python:3.10-slim-buster
 
-RUN apt-get update && apt-get install -y aria2 tor curl
-# ... the rest of your instructions
-
-# Install system dependencies (Aria2, Tor, etc.)
+# Install Tor and Aria2
 RUN apt-get update && apt-get install -y \
-    aria2 \
     tor \
-    &> /dev/null && rm -rf /var/lib/apt/lists/*
+    aria2 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for security
-RUN useradd -m botuser
-WORKDIR /home/botuser
+WORKDIR /app
 
-# Create a virtual environment
-RUN python -m venv /home/botuser/venv
-ENV PATH="/home/botuser/venv/bin:$PATH"
-
-# Copy and install requirements
+# Copy requirements and install
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the code
+# Copy the rest of your code
 COPY . .
 
-# Change ownership to the non-root user
-RUN chown -R botuser:botuser /home/botuser
-USER botuser
+# Create a script to start both Tor and the Bot
+RUN echo "tor & python3 bot.py" > start.sh && chmod +x start.sh
 
-# Start Tor and the Bot
-# Note: Since we are non-root, we start tor as a background process manually
-CMD tor & ["python3", "bot.py"]
+CMD ["./start.sh"]
 
 

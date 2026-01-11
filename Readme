@@ -1,0 +1,106 @@
+Here is a professional, comprehensive `README.md` for your GitHub repository. It covers installation, features, and the necessary technical warnings for a project of this scale.
+
+---
+
+# 🚀 Universal Telegram Leech Bot
+
+A powerful, containerized Telegram Bot designed to "leech" (download and re-upload) content from a vast array of sources including Direct Links, Torrents, Cloud Storage, and even Darknet (.onion) sites.
+
+## ✨ Features
+
+* **Torrent Support:** Download Magnet links and `.torrent` files via `Aria2`.
+* **Cloud Integration:** Native support for Mega.nz and direct extraction from Google Drive/Dropbox.
+* **Darknet Compatible:** Integrated Tor service to handle `.onion` and Torch search links.
+* **Dockerized:** Simple one-command deployment using Docker and Docker Compose.
+* **Fast Extraction:** Uses multi-connection downloading for maximum speed.
+
+## 🛠 Tech Stack
+
+* **Language:** Python 3.10
+* **Framework:** [Pyrogram](https://docs.pyrogram.org/) (MTProto API)
+* **Download Engine:** [Aria2c](https://aria2.github.io/)
+* **Privacy:** Tor (SOCKS5 Proxy)
+* **Containerization:** Docker & Docker Compose
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+
+* Docker and Docker Compose installed.
+* Telegram `API_ID` and `API_HASH` (Get them from [my.telegram.org](https://my.telegram.org)).
+* A Bot Token from [@BotFather](https://t.me/BotFather).
+
+### 2. Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/leech-telegram-bot.git
+cd leech-telegram-bot
+
+```
+
+### 3. Configuration
+
+Edit the `docker-compose.yml` file or create a `.env` file with your credentials:
+
+```yaml
+environment:
+  - API_ID=1234567
+  - API_HASH=your_api_hash
+  - BOT_TOKEN=your_bot_token
+
+```
+
+### 4. Deployment
+
+Start the bot using Docker Compose:
+
+```bash
+docker-compose up -d --build
+
+```
+
+---
+
+## 📖 Usage
+
+Once the bot is running, send the following commands in Telegram:
+
+| Command | Description |
+| --- | --- |
+| `/start` | Check if the bot is alive. |
+| `/leech <link>` | Download and upload any supported link. |
+| `/help` | View detailed instructions and supported formats. |
+
+**Supported Link Formats:**
+
+* `https://...` (Direct Links)
+* `magnet:?xt=...` (Magnet Links)
+* `https://mega.nz/...` (Mega Links)
+* `http://[hash].onion` (Darknet Links)
+
+---
+
+## ⚙️ How it Works
+
+1. **Link Identification:** The bot parses the incoming URL to determine the protocol.
+2. **Engine Routing:** * Torrents/Magnets are routed to **Aria2**.
+* Onion links are routed through the local **Tor Proxy**.
+* Mega links are handled via the **Mega-SDK**.
+
+
+3. **Local Storage:** The file is downloaded to the `/app/downloads` volume.
+4. **Telegram Upload:** The bot splits the file (if >2GB) and uploads it to your chat.
+
+---
+
+## ⚠️ Disclaimer
+
+This project is for educational purposes only. Downloading copyrighted material or accessing illegal content via Darknet links is strictly at your own risk. The developers are not responsible for any misuse of this software.
+
+## 🤝 Contributing
+
+Feel free to open issues or submit pull requests to add support for more cloud providers or features.

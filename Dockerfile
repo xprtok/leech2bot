@@ -1,44 +1,32 @@
-# Use Bullseye or Bookworm instead of Buster
-FROM python:3.11-bookworm
+# Use a modern, supported Python image (Debian Bookworm)
+# This avoids the "404 Not Found" repository errors
+FROM python:3.10-slim-bookworm
 
-# RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
-    sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-    sed -i '/stretch-updates/d' /etc/apt/sources.list && \
-    sed -i '/buster-updates/d' /etc/apt/sources.list
-    
-  # Add the archive fix here if using an old base image
-RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
-    sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-    sed -i '/stretch-updates/d' /etc/apt/sources.list && \
-    sed -i '/buster-updates/d' /etc/apt/sources.list
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-# Fix for Debian Buster EOL repositories
-RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
-    sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-    sed -i '/-updates/d' /etc/apt/sources.list
+# Set environment variables to prevent Python from writing .pyc files 
+# and to ensure logs are sent straight to the terminal
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Install the required packages
-RUN apt-get update && apt-get install -y \
+# Install system dependencies
+# Every command starts with RUN to avoid "unknown instruction" errors
+RUN apt-get update && apt-get install -y --no-install-recommends \
     tor \
     aria2 \
     curl \
-    python3 \
-    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
-# Copy requirements and install
+# Copy your requirements file first to leverage Docker caching
 COPY requirements.txt .
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your project files
+# Copy the rest of your application code
 COPY . .
 
-# Create a small script to run Tor in the background and then start the bot
-RUN echo "#!/bin/sh\ntor &\npython3 bot.py" > start.sh && chmod +x start.sh
-
-# Use the script to start the container
-CMD [". python3, bot.py"]
-
-
+# Command to run your bot
+# Replace 'bot.py' with the actual name of your main script
+CMD ["python3", "bot.py"]

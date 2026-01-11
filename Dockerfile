@@ -9,7 +9,17 @@ FROM python:3.11-bookworm
   # Add the archive fix here if using an old base image
 RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
     sed -i '/-updates/d' /etc/apt/sources.list
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list && \
+    sed -i '/buster-updates/d' /etc/apt/sources.list
 
+RUN apt-get update && apt-get install -y \
+    tor \
+    aria2 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+    
 # Your existing command will now work
 RUN apt-get update && apt-get install -y \
     tor \

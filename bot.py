@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from mega import Mega  # For Mega links
 
- from Crypto.Cipher import AES  #old pycrypto
+from Crypto.Cipher import AES  #old pycrypto
 from Cryptodome.Cipher import AES  #New pycryptodome
 
 # --- CONFIGURATION ---

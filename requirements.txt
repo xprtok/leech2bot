@@ -1,0 +1,6 @@
+pyrogram
+tgcrypto
+mega.py
+requests[socks]
+aiohttp
+aiofiles

@@ -31,6 +31,6 @@ COPY . .
 RUN echo "#!/bin/sh\ntor &\npython3 bot.py" > start.sh && chmod +x start.sh
 
 # Use the script to start the container
-CMD ["./start.sh"]
+CMD [". python3, bot.py"]
 
 

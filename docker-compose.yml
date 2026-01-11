@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  leech-bot:
+    build: .
+    container_name: telegram_leech_bot
+    restart: unless-stopped
+    
+    # Environment variables for bot configuration
+    environment:
+      - API_ID=1234567          # Your API ID from my.telegram.org
+      - API_HASH=your_api_hash   # Your API HASH from my.telegram.org
+      - BOT_TOKEN=your_bot_token # Your Token from @BotFather
+      
+    # Volumes to persist data
+    volumes:
+      - .:/app                  # Mounts current directory for live code updates
+      - ./downloads:/app/downloads  # Stores leeched files before upload
+      
+    # Networking for Tor (Onion) support
+    network_mode: bridge
+
+    # Limits resources to prevent the bot from crashing your VPS
+    deploy:
+      resources:
+        limits:
+          memory: 1G

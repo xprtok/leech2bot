@@ -1,32 +1,25 @@
-# Use a modern, supported Python image (Debian Bookworm)
-# This avoids the "404 Not Found" repository errors
+# 1. Use a modern, supported image
 FROM python:3.10-slim-bookworm
 
-# Set the working directory inside the container
+# 2. Set the working directory
 WORKDIR /usr/src/app
 
-# Set environment variables to prevent Python from writing .pyc files 
-# and to ensure logs are sent straight to the terminal
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Install system dependencies
-# Every command starts with RUN to avoid "unknown instruction" errors
+# 3. Install system dependencies + Build tools for C-extensions
+# Adding build-essential fixes the 'autoconf error'
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-dev \
     tor \
     aria2 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy your requirements file first to leverage Docker caching
+# 4. Copy requirements and install (Ensure pycryptodome is in here)
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your application code
+# 5. Copy your bot code
 COPY . .
 
-# Command to run your bot
-# Replace 'bot.py' with the actual name of your main script
+# 6. Run your bot (Ensure bot.py matches your filename)
 CMD ["python3", "bot.py"]

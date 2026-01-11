@@ -1,10 +1,7 @@
 import os
-import asyncio
-import pyrogram
-from pyrogram import Client, filters
+import sys
+from Crypto.Cipher import AES  # Remove the spaces before 'from'
 from mega import Mega # For Mega links
-from Crypto.Cipher import AES # old pycrypto
-from Cryptodome.Cipher import AES #New pycryptodome
 
 # --- CONFIGURATION ---
 API_ID = 36982189          # Get from my.telegram.org

@@ -28,4 +28,6 @@ USER botuser
 
 # Start Tor and the Bot
 # Note: Since we are non-root, we start tor as a background process manually
-CMD tor & python3 bot.py
+CMD tor & ["python3", "bot.py"]
+
+

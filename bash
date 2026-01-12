@@ -1,9 +1,6 @@
-pip install pyrogram tgcrypto mega.py
+python downloader_bot.py
+pip install --no-cache-dir
+docker build -t telegram-downloader-bot .
+docker run -d --name 
+downloader-bot -e BOT_TOKEN="your_token_here" telegram-downloader-bot
 pip install -r requirements.txt
-pip uninstall pycrypto
-pip install pycryptodomex
-pip install pycryptodome
-docker builder prune -a
-docker-compose build --no-cache
-docker-compose up -d
-docker logs -f telegram_leech_bot

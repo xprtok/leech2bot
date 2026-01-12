@@ -89,3 +89,8 @@ async def my_setup(application: Application):
     # This runs after the bot is initialized but before polling starts
     await application.bot.delete_webhook()
     print("✅ Webhook deleted and bot initialized")
+ydl_opts = {
+    'cookiefile': 'cookies.txt',  # Add this line
+    'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+    # ... other options
+}

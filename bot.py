@@ -1,10 +1,9 @@
-noimport asyncio
+import asyncio
 import os
 import logging
 import threading
 import http.server
 import socketserver
-import asyncio
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 from yt_dlp import YoutubeDL

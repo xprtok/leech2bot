@@ -27,7 +27,7 @@ threading.Thread(target=run_dummy_server, daemon=True).start()
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # --- CONFIGURATION ---
-BOT_TOKEN = '8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E'
+BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🚀 *Downloader Active*\nSend a link to start.", parse_mode='Markdown')

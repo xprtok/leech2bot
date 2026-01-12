@@ -9,4 +9,3 @@ requests[socks]
 aiohttp
 aiofiles
 yt-dlp
-hanime-tv-plugin

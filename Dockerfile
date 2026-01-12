@@ -1,24 +1,22 @@
-# Use a stable Python 3.10 image
-FROM python:3.10-slim-bookworm
+# Use the latest Python 3.13 image
+FROM python:3.13-slim-bookworm
 
-# Set working directory
-WORKDIR /usr/src/app
-
-# Install system dependencies (required for tgcrypto and other bot features)
+# Install FFmpeg and system tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    python3-dev \
-    tor \
-    aria2 \
+    ffmpeg \
+    git \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# --- FIX: Explicitly install dependencies ---
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application files
 COPY . .
 
-# Start the bot
-CMD ["python3", "bot.py"]
+# Run the bot
+CMD ["python", "bot.py"]

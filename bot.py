@@ -1,56 +1,75 @@
-import os
-import sys
 import asyncio
-from pyrogram import Client, filters
-from Cryptodome.Cipher import AES 
-from mega import Mega 
+import os
+import logging
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from yt_dlp import YoutubeDL
 
-# Configuration
-API_ID = 36982189 
-API_HASH = "d3ec5feee7342b692e7b5370fb9c8db7" 
-BOT_TOKEN = "8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E" 
+# Enable logging
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
 
-app = Client("leech_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+# Insert your Bot Token from BotFather here
+BOT_TOKEN = '8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E'
 
-# Simple check for Darknet/Onion links
-def is_onion(url):
-    return ".onion" in url
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Sends a welcome message when the command /start is issued."""
+    await update.message.reply_text(
+        "🚀 *High-Speed Video Downloader Bot Active*\n\n"
+        "Send me a link from any supported website to start the download.",
+        parse_mode='Markdown'
+    )
 
-@app.on_message(filters.command("leech") & filters.private)
-async def leech_handler(client, message):
-    if len(message.command) < 2:
-        await message.reply_text("❌ Please provide a link!\nUsage: `/leech <link>`")
-        return
+async def download_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Processes the link, downloads the video, and sends it to the user."""
+    url = update.message.text
+    status_msg = await update.message.reply_text("🔎 *Analyzing link...*", parse_mode='Markdown')
 
-    link = message.text.split(None, 1)[1]
-    status_msg = await message.reply_text("🔎 Analyzing link...")
+    # yt-dlp options for high speed and best quality
+    ydl_opts = {
+        'format': 'bestvideo[ext=mp4]+bestaudio[m4a]/best[ext=mp4]/best',
+        'outtmpl': 'downloads/%(title)s.%(ext)s',
+        'quiet': True,
+        'no_warnings': True,
+    }
 
-    # 1. Handle Darknet/Onion Links
-    if is_onion(link):
-        await status_msg.edit("⚠️ Darknet (.onion) links require a Tor Proxy. Extraction failed.")
-        return
+    try:
+        # Run yt-dlp in a separate thread to keep the bot async
+        loop = asyncio.get_event_loop()
+        
+        def run_ydl():
+            with YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(url, download=True)
+                return ydl.prepare_filename(info)
 
-    # 2. Handle Magnet/Torrent Links
-    elif link.startswith("magnet:") or link.endswith(".torrent"):
-        await status_msg.edit("🌀 Magnet/Torrent detected. Starting Aria2...")
-        await asyncio.sleep(2)
-        await status_msg.edit("✅ Torrent added to queue.")
+        file_path = await loop.run_in_executor(None, run_ydl)
 
-    # 3. Handle Mega Links
-    elif "mega.nz" in link:
-        await status_msg.edit("☁️ Mega link detected. Authenticating...")
-        try:
-            # Note: Mega() requires mega.py library
-            await status_msg.edit("✅ Mega download started.")
-        except Exception as e:
-            await status_msg.edit(f"❌ Mega Error: {e}")
+        await status_msg.edit_text("📤 *Uploading video to Telegram...*", parse_mode='Markdown')
+        
+        # Send the downloaded video file
+        with open(file_path, 'rb') as video:
+            await update.message.reply_video(video=video, caption="✅ *Download Complete!*")
+        
+        # Clean up: Delete the file after sending to save server space
+        os.remove(file_path)
+        await status_msg.delete()
 
-    # 4. Handle Direct Links
-    else:
-        await status_msg.edit("🚀 Direct/Cloud link detected. Leeching...")
-        await asyncio.sleep(3)
-        await status_msg.edit("📦 File leeched successfully!")
+    except Exception as e:
+        logging.error(f"Download Error: {e}")
+        await status_msg.edit_text(f"❌ *Error:* Failed to process link. Ensure the site is supported.")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    # Ensure a download directory exists
+    if not os.path.exists('downloads'):
+        os.makedirs('downloads')
+
+    # Build the application
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+    # Add handlers
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, download_video))
+
     print("Bot is running...")
-    app.run()
+    app.run_polling()

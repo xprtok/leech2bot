@@ -1,4 +1,4 @@
-import asyncio
+noimport asyncio
 import os
 import logging
 import threading
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     app.run_polling()
 application = (
     ApplicationBuilder()
-    .token("YOUR_TOKEN")
+    .token("8466225003:AAFQJVaMwSX9kzYUOc0gZxMtUDdW3Ifnf8E")
     .post_init(my_setup) # Add the hook here
     .build()
 )

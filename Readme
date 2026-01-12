@@ -1,106 +1,77 @@
-Here is a professional, comprehensive `README.md` for your GitHub repository. It covers installation, features, and the necessary technical warnings for a project of this scale.
+🚀 High-Speed Video Downloader Bot
+A modern, high-performance Telegram bot built with Python 3.12+ and yt-dlp. This bot is designed to extract and download videos from over 1,500+ supported platforms with maximum speed and quality.
 
----
+✨ Features
+⚡ High-Speed Downloads: Powered by yt-dlp and ffmpeg for ultra-fast media processing.
 
-# 🚀 Universal Telegram Leech Bot
+🌐 1,500+ Sites Supported: Works with YouTube, TikTok, Instagram, Twitter, and major adult platforms.
 
-A powerful, containerized Telegram Bot designed to "leech" (download and re-upload) content from a vast array of sources including Direct Links, Torrents, Cloud Storage, and even Darknet (.onion) sites.
+🛠️ Fully Asynchronous: Built on python-telegram-bot v22.5+ to handle multiple users simultaneously without lag.
 
-## ✨ Features
+🐳 Docker Ready: One-command deployment using Docker and Docker Compose.
 
-* **Torrent Support:** Download Magnet links and `.torrent` files via `Aria2`.
-* **Cloud Integration:** Native support for Mega.nz and direct extraction from Google Drive/Dropbox.
-* **Darknet Compatible:** Integrated Tor service to handle `.onion` and Torch search links.
-* **Dockerized:** Simple one-command deployment using Docker and Docker Compose.
-* **Fast Extraction:** Uses multi-connection downloading for maximum speed.
+📁 Auto-Cleanup: Automatically deletes downloaded files from the server after sending them to save space.
 
-## 🛠 Tech Stack
+📋 Requirements
+Telegram Bot Token: Obtain one from @BotFather.
 
-* **Language:** Python 3.10
-* **Framework:** [Pyrogram](https://docs.pyrogram.org/) (MTProto API)
-* **Download Engine:** [Aria2c](https://aria2.github.io/)
-* **Privacy:** Tor (SOCKS5 Proxy)
-* **Containerization:** Docker & Docker Compose
+Python 3.12+ (if running locally).
 
----
+FFmpeg: Required for merging video and audio streams.
 
-## 🚀 Getting Started
+Docker: (Recommended) for isolated and consistent deployment.
 
-### 1. Prerequisites
-
-* Docker and Docker Compose installed.
-* Telegram `API_ID` and `API_HASH` (Get them from [my.telegram.org](https://my.telegram.org)).
-* A Bot Token from [@BotFather](https://t.me/BotFather).
-
-### 2. Installation
+🛠️ Installation
+Option 1: Using Docker (Recommended)
+This is the fastest way to get your bot running in a production-ready environment.
 
 Clone the repository:
 
-```bash
-git clone https://github.com/yourusername/leech-telegram-bot.git
-cd leech-telegram-bot
+Bash
 
-```
+git clone https://github.com/yourusername/your-repo-name.git
+cd your-repo-name
+Build and run the container:
 
-### 3. Configuration
+Bash
 
-Edit the `docker-compose.yml` file or create a `.env` file with your credentials:
+docker build -t telegram-downloader-bot .
+docker run -d --name downloader-bot -e BOT_TOKEN="your_token_here" telegram-downloader-bot
+Option 2: Local Setup
+Install dependencies:
 
-```yaml
-environment:
-  - API_ID=1234567
-  - API_HASH=your_api_hash
-  - BOT_TOKEN=your_bot_token
+Bash
 
-```
+pip install -r requirements.txt
+Configure environment: Replace the BOT_TOKEN in downloader_bot.py with your actual token.
 
-### 4. Deployment
+Run the bot:
 
-Start the bot using Docker Compose:
+Bash
 
-```bash
-docker-compose up -d --build
+python downloader_bot.py
+🚀 Usage
+Start the bot by sending the /start command.
 
-```
+Paste any video URL from a supported website.
 
----
+The bot will analyze the link, download the best quality available, and send the file directly to your chat.
 
-## 📖 Usage
+🛠️ Tech Stack
+Language: Python 🐍
 
-Once the bot is running, send the following commands in Telegram:
+Bot Framework: python-telegram-bot (Asynchronous)
 
-| Command | Description |
-| --- | --- |
-| `/start` | Check if the bot is alive. |
-| `/leech <link>` | Download and upload any supported link. |
-| `/help` | View detailed instructions and supported formats. |
+Engine: yt-dlp
 
-**Supported Link Formats:**
+Processor: FFmpeg
 
-* `https://...` (Direct Links)
-* `magnet:?xt=...` (Magnet Links)
-* `https://mega.nz/...` (Mega Links)
-* `http://[hash].onion` (Darknet Links)
+Container: Docker
 
----
+📄 License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-## ⚙️ How it Works
+⚖️ Disclaimer
+This bot is intended for personal use only. Please respect the terms of service of the websites you download from. Distribution of copyrighted material without permission is prohibited.
 
-1. **Link Identification:** The bot parses the incoming URL to determine the protocol.
-2. **Engine Routing:** * Torrents/Magnets are routed to **Aria2**.
-* Onion links are routed through the local **Tor Proxy**.
-* Mega links are handled via the **Mega-SDK**.
-
-
-3. **Local Storage:** The file is downloaded to the `/app/downloads` volume.
-4. **Telegram Upload:** The bot splits the file (if >2GB) and uploads it to your chat.
-
----
-
-## ⚠️ Disclaimer
-
-This project is for educational purposes only. Downloading copyrighted material or accessing illegal content via Darknet links is strictly at your own risk. The developers are not responsible for any misuse of this software.
-
-## 🤝 Contributing
-
-Feel free to open issues or submit pull requests to add support for more cloud providers or features.
+Would you like me to help you create a docker-compose.yml file to make the deployment even easier?

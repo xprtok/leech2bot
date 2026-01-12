@@ -1,6 +1,10 @@
 # Use a stable Python 3.10 image
 FROM python:3.10-slim-bookworm
 
+# Install dependencies including the specific hanime plugin
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir git+https://github.com/cynthia2006/hanime-plugin.git
+    
 # Set working directory
 WORKDIR /usr/src/app
 

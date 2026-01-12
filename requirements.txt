@@ -1,17 +1,11 @@
-# Core Telegram bot framework
-pyrogram
-tgcrypto
+# Latest asynchronous Telegram library (v22.5+)
+python-telegram-bot[all]>=22.5
 
-# Modern cryptography library (replacement for PyCrypto)
-pycryptodomex
+# Advanced video downloader engine
+yt-dlp>=2025.12.1
 
-# Mega.nz support
-mega.py
+# Asynchronous HTTP client for fast networking
+aiohttp>=3.11.0
 
-# Retry logic
-tenacity==8.2.3
-
-# Networking libraries
-requests[socks]
-aiohttp
-aiofiles
+# Optional: Fast crypto for Telegram MTProto (recommended)
+cryptography>=42.0.0

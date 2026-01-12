@@ -1,25 +1,23 @@
-# Use Python 3.10 to avoid asyncio and header compatibility issues
+# Use a stable Python 3.10 image
 FROM python:3.10-slim-bookworm
 
+# Set working directory
 WORKDIR /usr/src/app
 
-# Install system dependencies + headers needed for C-extensions
+# Install system dependencies (required for tgcrypto and other bot features)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
-    ffmpeg \
-    git \
+    tor \
+    aria2 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy and install Python requirements
+# --- FIX: Explicitly install dependencies ---
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install the specialized hanime plugin directly from source
-RUN pip install --no-cache-dir git+https://github.com/cynthia2006/hanime-plugin.git
-
-# Copy the rest of the code
+# Copy application code
 COPY . .
 
 # Start the bot

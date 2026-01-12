@@ -66,10 +66,26 @@ async def download_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logging.error(f"Download Error: {e}")
         await status_msg.edit_text(f"❌ *Error:* {str(e)}")
 
-if __name__ == '__main__':
-    if not os.path.exists('downloads'): os.makedirs('downloads')
+if __name__ == "__main__":
+    application = ApplicationBuilder().token("YOUR_TOKEN").build()
+    # Add your handlers here...
+    # This automatically handles clearing old connections
+    application.run_polling(drop_pending_updates=True)
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, download_video))
     print("🤖 Bot is starting...")
     app.run_polling()
+application = (
+    ApplicationBuilder()
+    .token("YOUR_TOKEN")
+    .post_init(my_setup) # Add the hook here
+    .build()
+)
+
+application.run_polling()
+
+async def my_setup(application: Application):
+    # This runs after the bot is initialized but before polling starts
+    await application.bot.delete_webhook()
+    print("✅ Webhook deleted and bot initialized")

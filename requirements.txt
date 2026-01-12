@@ -1,11 +1,12 @@
 # Latest asynchronous Telegram library (v22.5+)
 python-telegram-bot[all]>=22.5
-
-# Advanced video downloader engine
-yt-dlp>=2025.12.1
-
-# Asynchronous HTTP client for fast networking
-aiohttp>=3.11.0
-
-# Optional: Fast crypto for Telegram MTProto (recommended)
-cryptography>=42.0.0
+pyrogram
+tgcrypto
+pycryptodomex
+mega.py
+tenacity==8.2.3
+requests[socks]
+aiohttp
+aiofiles
+yt-dlp
+hanime-tv-plugin

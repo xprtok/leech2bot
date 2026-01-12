@@ -1,3 +1,7 @@
+python-telegram-bot[job-queue]>=22.0
+yt-dlp>=2025.12.13
+requests
+aiohttp
 # Latest asynchronous Telegram library (v22.5+)
 python-telegram-bot[all]>=22.5
 
